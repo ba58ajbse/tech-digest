@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "ingest": "tsx scripts/run-ingest.ts"
+    "ingest": "tsx scripts/run-ingest.ts",
+    "retry:summary": "tsx scripts/retry-summaries.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.0",
