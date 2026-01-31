@@ -11,3 +11,4 @@
 - Limited ingestion to items published on the previous day (local time).
 - Added a retry script to re-summarize failed articles via Gemini.
 - Added retry logging and a stricter fallback-only filter for re-summarization.
+- Updated retry flow to wait out Gemini rate limits instead of skipping candidates.

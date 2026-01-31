@@ -50,7 +50,9 @@ async function retrySummaries() {
     }
 
     if (Date.now() < geminiCooldownUntil) {
-      continue;
+      const wait = geminiCooldownUntil - Date.now();
+      console.warn(`[retry] cooling down for ${Math.ceil(wait / 1000)}s`);
+      await sleep(wait);
     }
 
     const waitMs = Math.max(0, minIntervalMs - (Date.now() - lastGeminiCallAt));
@@ -77,6 +79,7 @@ async function retrySummaries() {
       errors += 1;
       if (isRateLimitError(err)) {
         geminiCooldownUntil = Date.now() + cooldownMs;
+        console.warn(`[retry] rate limited, cooling down for ${Math.ceil(cooldownMs / 1000)}s`);
       }
       console.warn('[retry] summarize failed', { id: row.id, url: row.url }, err);
     }
