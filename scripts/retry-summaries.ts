@@ -5,6 +5,7 @@ import { summarizeToJapanese } from '../src/lib/ingest/summarize';
 type ArticleRow = {
   id: string;
   title: string;
+  url: string | null;
   summary_raw: string | null;
   summary_ja: string | null;
   language: string | null;
@@ -26,7 +27,7 @@ async function retrySummaries() {
 
   const { data, error } = await supabase
     .from('articles')
-    .select('id,title,summary_raw,summary_ja,language,created_at')
+    .select('id,title,url,summary_raw,summary_ja,language,created_at')
     .gte('created_at', since.toISOString())
     .or('language.eq.unknown,summary_ja.is.null')
     .not('summary_raw', 'is', null)
@@ -40,8 +41,13 @@ async function retrySummaries() {
   let updated = 0;
   let errors = 0;
 
+  console.log(`[retry] candidates: ${data.length}`);
+
   for (const row of data as ArticleRow[]) {
     if (!row.summary_raw) continue;
+    if (row.summary_ja && row.summary_raw && row.summary_ja.trim() !== row.summary_raw.trim() && row.language !== 'unknown') {
+      continue;
+    }
 
     if (Date.now() < geminiCooldownUntil) {
       continue;
@@ -63,6 +69,7 @@ async function retrySummaries() {
 
       if (updateError) {
         errors += 1;
+        console.warn('[retry] update failed', { id: row.id, url: row.url }, updateError);
       } else {
         updated += 1;
       }
@@ -71,6 +78,7 @@ async function retrySummaries() {
       if (isRateLimitError(err)) {
         geminiCooldownUntil = Date.now() + cooldownMs;
       }
+      console.warn('[retry] summarize failed', { id: row.id, url: row.url }, err);
     }
   }
 

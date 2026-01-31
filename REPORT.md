@@ -10,3 +10,4 @@
 - Added Gemini rate-limit backoff and optional per-feed item limiting to reduce 429 errors.
 - Limited ingestion to items published on the previous day (local time).
 - Added a retry script to re-summarize failed articles via Gemini.
+- Added retry logging and a stricter fallback-only filter for re-summarization.
