@@ -1,0 +1,76 @@
+{
+  "topics": [
+    {
+      "id": "ai",
+      "label": "AI",
+      "feeds": [
+        {
+          "id": "openai-news",
+          "name": "OpenAI News",
+          "url": "https://openai.com/news/rss.xml",
+          "format": "rss"
+        },
+        {
+          "id": "arxiv-cs-ai",
+          "name": "arXiv cs.AI",
+          "url": "https://rss.arxiv.org/rss/cs.AI",
+          "format": "rss"
+        }
+      ]
+    },
+    {
+      "id": "go",
+      "label": "Go",
+      "feeds": [
+        {
+          "id": "golang-weekly",
+          "name": "Golang Weekly",
+          "url": "https://golangweekly.com/rss/",
+          "format": "rss"
+        }
+      ]
+    },
+    {
+      "id": "github",
+      "label": "GitHub",
+      "feeds": [
+        {
+          "id": "github-changelog",
+          "name": "GitHub Changelog",
+          "url": "https://github.blog/changelog/feed/",
+          "format": "rss"
+        }
+      ]
+    },
+    {
+      "id": "aws",
+      "label": "AWS",
+      "feeds": [
+        {
+          "id": "aws-whats-new",
+          "name": "AWS What's New",
+          "url": "https://aws.amazon.com/about-aws/whats-new/recent/feed/",
+          "format": "rss"
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "label": "セキュリティ",
+      "feeds": [
+        {
+          "id": "ipa-security-alert",
+          "name": "IPA セキュリティ情報",
+          "url": "https://www.ipa.go.jp/security/alert-rss.rdf",
+          "format": "rdf"
+        },
+        {
+          "id": "jvn-ipedia-new",
+          "name": "JVN iPedia (New)",
+          "url": "https://jvndb.jvn.jp/en/rss/jvndb_new.rdf",
+          "format": "rdf"
+        }
+      ]
+    }
+  ]
+}
