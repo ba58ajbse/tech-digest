@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { runIngest } from '../src/lib/ingest/ingest';
 
 runIngest()

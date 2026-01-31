@@ -5,3 +5,6 @@
 - Added Supabase schema and seed files for topics, sources, and articles.
 - Implemented RSS/RDF ingestion with Gemini-based summarization.
 - Implemented a topic-tab UI with search and time filtering.
+- Fixed ingestion script to load local `.env` values via dotenv.
+- Added per-item error handling and fallback summaries to keep ingest resilient.
+- Added Gemini rate-limit backoff and optional per-feed item limiting to reduce 429 errors.
