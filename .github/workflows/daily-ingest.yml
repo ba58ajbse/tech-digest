@@ -14,6 +14,7 @@ jobs:
         env:
           BASE_URL: ${{ secrets.TECH_DIGEST_BASE_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: |
           if [ -z "$BASE_URL" ]; then
             echo "Missing TECH_DIGEST_BASE_URL secret" >&2
@@ -23,5 +24,10 @@ jobs:
             echo "Missing CRON_SECRET secret" >&2
             exit 1
           fi
+          if [ -z "$VERCEL_AUTOMATION_BYPASS_SECRET" ]; then
+            echo "Missing VERCEL_AUTOMATION_BYPASS_SECRET secret" >&2
+            exit 1
+          fi
           curl -sS -X POST "$BASE_URL/api/cron/ingest" \
-            -H "x-cron-secret: $CRON_SECRET"
+            -H "x-cron-secret: $CRON_SECRET" \
+            -H "x-vercel-protection-bypass: $VERCEL_AUTOMATION_BYPASS_SECRET"
