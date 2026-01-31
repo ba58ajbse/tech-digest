@@ -12,3 +12,4 @@
 - Added a retry script to re-summarize failed articles via Gemini.
 - Added retry logging and a stricter fallback-only filter for re-summarization.
 - Updated retry flow to wait out Gemini rate limits instead of skipping candidates.
+- Added a GitHub Actions workflow to trigger daily ingest at 09:00 JST.
