@@ -13,4 +13,5 @@
 - Added retry logging and a stricter fallback-only filter for re-summarization.
 - Updated retry flow to wait out Gemini rate limits instead of skipping candidates.
 - Added PWA manifest, icons, and service worker registration for installable mobile experience.
+- Updated UI theme to a dark color palette while keeping layout unchanged.
 - Added a GitHub Actions workflow to trigger daily ingest at 09:00 JST.
