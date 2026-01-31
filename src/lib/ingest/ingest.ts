@@ -21,6 +21,7 @@ export async function runIngest(): Promise<IngestResult> {
   const cooldownMs = Number(process.env.GEMINI_COOLDOWN_MS ?? '60000');
   let lastGeminiCallAt = 0;
   let geminiCooldownUntil = 0;
+  const yesterdayRange = getYesterdayRange();
 
   const runStart = new Date();
   const { data: runRow } = await supabase
@@ -54,7 +55,8 @@ export async function runIngest(): Promise<IngestResult> {
         const bTime = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
         return bTime - aTime;
       });
-      const limited = maxItemsPerFeed > 0 ? sorted.slice(0, maxItemsPerFeed) : sorted;
+      const filtered = sorted.filter((item) => isWithinRange(item.publishedAt, yesterdayRange));
+      const limited = maxItemsPerFeed > 0 ? filtered.slice(0, maxItemsPerFeed) : filtered;
 
       for (const item of limited) {
         const { data: existing, error: lookupError } = await supabase
@@ -150,6 +152,23 @@ function isRateLimitError(error: unknown) {
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function getYesterdayRange() {
+  const now = new Date();
+  const start = new Date(now);
+  start.setDate(start.getDate() - 1);
+  start.setHours(0, 0, 0, 0);
+  const end = new Date(start);
+  end.setHours(23, 59, 59, 999);
+  return { start, end };
+}
+
+function isWithinRange(value: string | null, range: { start: Date; end: Date }) {
+  if (!value) return false;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return false;
+  return date >= range.start && date <= range.end;
 }
 
 async function syncTopicsAndSources(entries: FeedEntry[]) {
