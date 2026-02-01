@@ -18,3 +18,4 @@
 - Added Vercel protection bypass header support for scheduled ingest.
 - Removed NEXT_PUBLIC Supabase keys to keep database access server-side only.
 - Added an RLS enablement script for Supabase with no public policies.
+- Switched Google Fonts loading to CSS import to avoid build-time fetch failures.

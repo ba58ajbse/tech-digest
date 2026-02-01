@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap');
+
 :root {
   color-scheme: dark;
+  --font-sans: 'Space Grotesk', 'SF Pro Text', 'Segoe UI', sans-serif;
+  --font-display: 'Fraunces', 'Iowan Old Style', serif;
   --bg: #0d1117;
   --bg-accent: #111827;
   --bg-deep: #070a10;
