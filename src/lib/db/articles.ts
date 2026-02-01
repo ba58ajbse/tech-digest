@@ -30,16 +30,20 @@ export async function getLatestArticles(options?: { days?: number; limit?: numbe
     return [] as Article[];
   }
 
-  return data.map((row) => ({
-    id: row.id,
-    title: row.title,
-    url: row.url,
-    summary_ja: row.summary_ja,
-    summary_raw: row.summary_raw,
-    language: row.language,
-    published_at: row.published_at,
-    created_at: row.created_at,
-    topic_id: row.topic_id,
-    source_name: row.sources?.name ?? 'Unknown'
-  }));
+  return data.map((row) => {
+    const source = Array.isArray(row.sources) ? row.sources[0] : row.sources;
+
+    return {
+      id: row.id,
+      title: row.title,
+      url: row.url,
+      summary_ja: row.summary_ja,
+      summary_raw: row.summary_raw,
+      language: row.language,
+      published_at: row.published_at,
+      created_at: row.created_at,
+      topic_id: row.topic_id,
+      source_name: source?.name ?? 'Unknown'
+    };
+  });
 }
