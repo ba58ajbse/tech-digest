@@ -21,3 +21,6 @@
 - Switched Google Fonts loading to CSS import to avoid build-time fetch failures.
 - Fixed Supabase relation mapping for source names during article fetch.
 - Moved themeColor metadata to viewport export to satisfy Next.js warnings.
+
+## 2026-02-01
+- No functional changes; commit to trigger deployment.
