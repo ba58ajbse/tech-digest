@@ -20,3 +20,4 @@
 - Added an RLS enablement script for Supabase with no public policies.
 - Switched Google Fonts loading to CSS import to avoid build-time fetch failures.
 - Fixed Supabase relation mapping for source names during article fetch.
+- Moved themeColor metadata to viewport export to satisfy Next.js warnings.
