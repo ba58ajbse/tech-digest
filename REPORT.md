@@ -16,3 +16,4 @@
 - Updated UI theme to a dark color palette while keeping layout unchanged.
 - Added a GitHub Actions workflow to trigger daily ingest at 09:00 JST.
 - Added Vercel protection bypass header support for scheduled ingest.
+- Removed NEXT_PUBLIC Supabase keys to keep database access server-side only.
