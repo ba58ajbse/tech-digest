@@ -28,6 +28,12 @@ jobs:
             echo "Missing VERCEL_AUTOMATION_BYPASS_SECRET secret" >&2
             exit 1
           fi
-          curl -sS -X POST "$BASE_URL/api/cron/ingest" \
+          response=$(curl -sS -w "\nstatus=%{http_code}\n" -X POST "$BASE_URL/api/cron/ingest" \
             -H "x-cron-secret: $CRON_SECRET" \
-            -H "x-vercel-protection-bypass: $VERCEL_AUTOMATION_BYPASS_SECRET"
+            -H "x-vercel-protection-bypass: $VERCEL_AUTOMATION_BYPASS_SECRET")
+          echo "$response"
+          status=$(echo "$response" | tail -n 1 | sed 's/status=//')
+          if [ "$status" -ne 200 ]; then
+            echo "Ingest request failed with status $status" >&2
+            exit 1
+          fi
