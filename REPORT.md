@@ -22,6 +22,7 @@
 - Fixed Supabase relation mapping for source names during article fetch.
 - Moved themeColor metadata to viewport export to satisfy Next.js warnings.
 - Added HTTP status logging and failure handling to the daily ingest workflow.
+- Forced the home page to render dynamically so new articles appear without redeploys.
 
 ## 2026-02-01
 - No functional changes; commit to trigger deployment.

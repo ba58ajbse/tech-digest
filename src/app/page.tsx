@@ -2,6 +2,8 @@ import { loadFeedsConfig } from '@/lib/config/feeds';
 import { getLatestArticles } from '@/lib/db/articles';
 import TopicTabs from '@/components/topic-tabs';
 
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage() {
   const config = await loadFeedsConfig();
   const articles = await getLatestArticles({ days: 30, limit: 240 });
