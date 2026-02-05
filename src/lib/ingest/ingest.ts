@@ -11,7 +11,11 @@ export type IngestResult = {
   errorCount: number;
 };
 
-export async function runIngest(): Promise<IngestResult> {
+export type IngestOptions = {
+  targetDate?: string | null;
+};
+
+export async function runIngest(options?: IngestOptions): Promise<IngestResult> {
   const supabase = getSupabaseAdminClient();
   const entries = await loadFeedEntries();
   await syncTopicsAndSources(entries);
@@ -21,7 +25,7 @@ export async function runIngest(): Promise<IngestResult> {
   const cooldownMs = Number(process.env.GEMINI_COOLDOWN_MS ?? '60000');
   let lastGeminiCallAt = 0;
   let geminiCooldownUntil = 0;
-  const yesterdayRange = getYesterdayRange();
+  const targetRange = getTargetRange(options?.targetDate ?? null);
 
   const runStart = new Date();
   const { data: runRow } = await supabase
@@ -55,7 +59,7 @@ export async function runIngest(): Promise<IngestResult> {
         const bTime = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
         return bTime - aTime;
       });
-      const filtered = sorted.filter((item) => isWithinRange(item.publishedAt, yesterdayRange));
+      const filtered = sorted.filter((item) => isWithinRange(item.publishedAt, targetRange));
       const limited = maxItemsPerFeed > 0 ? filtered.slice(0, maxItemsPerFeed) : filtered;
 
       for (const item of limited) {
@@ -154,7 +158,19 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function getYesterdayRange() {
+function getTargetRange(targetDate: string | null) {
+  if (targetDate) {
+    const parsed = parseLocalDate(targetDate);
+    if (!parsed) {
+      throw new Error(`Invalid target date: ${targetDate}`);
+    }
+    const start = parsed;
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(start);
+    end.setHours(23, 59, 59, 999);
+    return { start, end };
+  }
+
   const now = new Date();
   const start = new Date(now);
   start.setDate(start.getDate() - 1);
@@ -162,6 +178,15 @@ function getYesterdayRange() {
   const end = new Date(start);
   end.setHours(23, 59, 59, 999);
   return { start, end };
+}
+
+function parseLocalDate(value: string) {
+  const parts = value.split('-').map((part) => Number(part));
+  if (parts.length !== 3) return null;
+  const [year, month, day] = parts;
+  if (!year || !month || !day) return null;
+  const date = new Date(year, month - 1, day);
+  return Number.isNaN(date.getTime()) ? null : date;
 }
 
 function isWithinRange(value: string | null, range: { start: Date; end: Date }) {

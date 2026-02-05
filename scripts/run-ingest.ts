@@ -1,7 +1,9 @@
 import 'dotenv/config';
 import { runIngest } from '../src/lib/ingest/ingest';
 
-runIngest()
+const targetDate = process.argv[2] ?? process.env.INGEST_DATE ?? null;
+
+runIngest({ targetDate })
   .then((result) => {
     console.log(`[ingest] new: ${result.newCount}, errors: ${result.errorCount}`);
     process.exit(0);
