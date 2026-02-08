@@ -24,6 +24,7 @@
 - Added HTTP status logging and failure handling to the daily ingest workflow.
 - Forced the home page to render dynamically so new articles appear without redeploys.
 - Added a target date option for ingest runs (API query param and CLI/env).
+- Enhanced retry logic to retranslate summaries missing Japanese text.
 
 ## 2026-02-01
 - No functional changes; commit to trigger deployment.

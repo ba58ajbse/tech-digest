@@ -45,7 +45,7 @@ async function retrySummaries() {
 
   for (const row of data as ArticleRow[]) {
     if (!row.summary_raw) continue;
-    if (row.summary_ja && row.summary_raw && row.summary_ja.trim() !== row.summary_raw.trim() && row.language !== 'unknown') {
+    if (!needsRetry(row)) {
       continue;
     }
 
@@ -86,6 +86,18 @@ async function retrySummaries() {
   }
 
   console.log(`[retry] updated: ${updated}, errors: ${errors}`);
+}
+
+function needsRetry(row: ArticleRow) {
+  if (!row.summary_ja) return true;
+  if (row.language === 'unknown') return true;
+  if (row.summary_raw && row.summary_ja.trim() === row.summary_raw.trim()) return true;
+  if (!containsJapanese(row.summary_ja)) return true;
+  return false;
+}
+
+function containsJapanese(text: string) {
+  return /[\u3040-\u30ff\u4e00-\u9faf]/.test(text);
 }
 
 function isRateLimitError(error: unknown) {
