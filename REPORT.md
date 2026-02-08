@@ -27,6 +27,7 @@
 - Enhanced retry logic to retranslate summaries missing Japanese text.
 - Added a scheduled GitHub Actions workflow to retry translations daily.
 - Updated retry workflow to run every 3 hours with a 10-minute timeout.
+- Added success logging for retranslated summaries.
 
 ## 2026-02-01
 - No functional changes; commit to trigger deployment.

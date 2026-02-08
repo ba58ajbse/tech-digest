@@ -74,6 +74,7 @@ async function retrySummaries() {
         console.warn('[retry] update failed', { id: row.id, url: row.url }, updateError);
       } else {
         updated += 1;
+        console.log('[retry] updated', { id: row.id, url: row.url });
       }
     } catch (err) {
       errors += 1;
