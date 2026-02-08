@@ -9,12 +9,6 @@
           "name": "OpenAI News",
           "url": "https://openai.com/news/rss.xml",
           "format": "rss"
-        },
-        {
-          "id": "arxiv-cs-ai",
-          "name": "arXiv cs.AI",
-          "url": "https://rss.arxiv.org/rss/cs.AI",
-          "format": "rss"
         }
       ]
     },

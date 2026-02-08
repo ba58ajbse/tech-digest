@@ -8,7 +8,6 @@ on conflict (id) do update set label = excluded.label;
 
 insert into sources (id, name, url, format, topic_id) values
   ('openai-news', 'OpenAI News', 'https://openai.com/news/rss.xml', 'rss', 'ai'),
-  ('arxiv-cs-ai', 'arXiv cs.AI', 'https://rss.arxiv.org/rss/cs.AI', 'rss', 'ai'),
   ('golang-weekly', 'Golang Weekly', 'https://golangweekly.com/rss/', 'rss', 'go'),
   ('github-changelog', 'GitHub Changelog', 'https://github.blog/changelog/feed/', 'rss', 'github'),
   ('aws-whats-new', 'AWS What''s New', 'https://aws.amazon.com/about-aws/whats-new/recent/feed/', 'rss', 'aws'),

@@ -214,4 +214,12 @@ async function syncTopicsAndSources(entries: FeedEntry[]) {
   }));
 
   await supabase.from('sources').upsert(sources, { onConflict: 'id' });
+
+  const activeIds = entries.map((entry) => entry.feed.id);
+  if (activeIds.length > 0) {
+    await supabase
+      .from('sources')
+      .update({ active: false })
+      .not('id', 'in', `(${activeIds.join(',')})`);
+  }
 }

@@ -21,7 +21,8 @@ export async function getLatestArticles(options?: { days?: number; limit?: numbe
 
   const { data, error } = await supabase
     .from('articles')
-    .select('id,title,url,summary_ja,summary_raw,language,published_at,created_at,topic_id,sources(name)')
+    .select('id,title,url,summary_ja,summary_raw,language,published_at,created_at,topic_id,sources(name,active)')
+    .eq('sources.active', true)
     .gte('published_at', since.toISOString())
     .order('published_at', { ascending: false })
     .limit(limit);
@@ -31,7 +32,7 @@ export async function getLatestArticles(options?: { days?: number; limit?: numbe
   }
 
   return data.map((row) => {
-    const source = Array.isArray(row.sources) ? row.sources[0] : row.sources;
+    const source = Array.isArray(row.sources) ? row.sources.find((item) => item?.active) : row.sources;
 
     return {
       id: row.id,

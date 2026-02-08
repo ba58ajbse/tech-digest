@@ -28,6 +28,7 @@
 - Added a scheduled GitHub Actions workflow to retry translations daily.
 - Updated retry workflow to run every 3 hours with a 10-minute timeout.
 - Added success logging for retranslated summaries.
+- Removed arXiv cs.AI feed from config and hid inactive sources in the UI.
 
 ## 2026-02-01
 - No functional changes; commit to trigger deployment.
