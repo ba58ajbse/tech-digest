@@ -25,6 +25,7 @@
 - Forced the home page to render dynamically so new articles appear without redeploys.
 - Added a target date option for ingest runs (API query param and CLI/env).
 - Enhanced retry logic to retranslate summaries missing Japanese text.
+- Added a scheduled GitHub Actions workflow to retry translations daily.
 
 ## 2026-02-01
 - No functional changes; commit to trigger deployment.
