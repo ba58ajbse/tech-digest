@@ -26,6 +26,7 @@
 - Added a target date option for ingest runs (API query param and CLI/env).
 - Enhanced retry logic to retranslate summaries missing Japanese text.
 - Added a scheduled GitHub Actions workflow to retry translations daily.
+- Updated retry workflow to run every 3 hours with a 10-minute timeout.
 
 ## 2026-02-01
 - No functional changes; commit to trigger deployment.
