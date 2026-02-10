@@ -1,6 +1,7 @@
 import { loadFeedsConfig } from '@/lib/config/feeds';
 import { getLatestArticles } from '@/lib/db/articles';
 import TopicTabs from '@/components/topic-tabs';
+import ThemeToggle from '@/components/theme-toggle';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,7 +12,10 @@ export default async function HomePage() {
   return (
     <main className="page">
       <section className="hero">
-        <p className="eyebrow">Daily Briefing</p>
+        <div className="hero-header">
+          <p className="eyebrow">Daily Briefing</p>
+          <ThemeToggle />
+        </div>
         <h1>Tech Digest</h1>
         <p className="subhead">
           RSSベースの技術動向を日本語で要約。気になる記事は原文へ。
