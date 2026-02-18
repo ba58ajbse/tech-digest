@@ -215,6 +215,8 @@ async function syncTopicsAndSources(entries: FeedEntry[]) {
 
   await supabase.from('sources').upsert(sources, { onConflict: 'id' });
 
+  // Mark sources not in feeds.json as inactive
+  // Note: String IDs must be quoted with single quotes for SQL NOT IN clause
   const activeIds = entries.map((entry) => entry.feed.id);
   if (activeIds.length > 0) {
     await supabase
