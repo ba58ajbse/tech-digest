@@ -220,6 +220,6 @@ async function syncTopicsAndSources(entries: FeedEntry[]) {
     await supabase
       .from('sources')
       .update({ active: false })
-      .not('id', 'in', `(${activeIds.join(',')})`);
+      .not('id', 'in', `(${activeIds.map(id => `'${id}'`).join(',')})`);
   }
 }
