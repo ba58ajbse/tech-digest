@@ -10,30 +10,19 @@ jobs:
   ingest:
     runs-on: ubuntu-latest
     steps:
-      - name: Call ingest endpoint
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
+        with:
+          go-version-file: cmd/ingest/go.mod
+          cache-dependency-path: cmd/ingest/go.sum
+
+      - name: Build
+        run: go build -o ingest ./cmd/ingest
+
+      - name: Run ingest
         env:
-          BASE_URL: ${{ secrets.TECH_DIGEST_BASE_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
-          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-        run: |
-          if [ -z "$BASE_URL" ]; then
-            echo "Missing TECH_DIGEST_BASE_URL secret" >&2
-            exit 1
-          fi
-          if [ -z "$CRON_SECRET" ]; then
-            echo "Missing CRON_SECRET secret" >&2
-            exit 1
-          fi
-          if [ -z "$VERCEL_AUTOMATION_BYPASS_SECRET" ]; then
-            echo "Missing VERCEL_AUTOMATION_BYPASS_SECRET secret" >&2
-            exit 1
-          fi
-          response=$(curl -sS -w "\nstatus=%{http_code}\n" -X POST "$BASE_URL/api/cron/ingest" \
-            -H "x-cron-secret: $CRON_SECRET" \
-            -H "x-vercel-protection-bypass: $VERCEL_AUTOMATION_BYPASS_SECRET")
-          echo "$response"
-          status=$(echo "$response" | tail -n 1 | sed 's/status=//')
-          if [ "$status" -ne 200 ]; then
-            echo "Ingest request failed with status $status" >&2
-            exit 1
-          fi
+        run: ./ingest
