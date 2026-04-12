@@ -19,7 +19,9 @@ jobs:
           cache-dependency-path: cmd/ingest/go.sum
 
       - name: Build
-        run: go build -o ingest ./cmd/ingest
+        run: |
+          cd cmd/ingest
+          go build -o ../../ingest .
 
       - name: Retry summaries
         env:
